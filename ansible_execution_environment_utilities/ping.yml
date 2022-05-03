@@ -1,0 +1,14 @@
+---
+
+- name: Ping all hosts, simple test primarily for ansible-navigator execution environments
+#  hosts: all
+  hosts: localhost
+  become: false
+  gather_facts: false
+
+  tasks:
+
+    - name: Simple ansible.builtin.ping
+      ansible.builtin.ping:
+
+...

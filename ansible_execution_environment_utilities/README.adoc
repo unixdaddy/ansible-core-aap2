@@ -1,0 +1,14 @@
+== Overview
+
+Utilities and playbooks to make working with Ansible Execution Environments Joyful. 
+
+For example:
+
+* Simple playbooks examples include: like 
+** `ping.yml` as the EE equivalent of `ansible all -m ping`
+** `pause.yml` "wedge your EE running so you can attach to it and inspect resources and mounts
+**
+- Run the following command, open another terminal window and exec into it
+ansible-navigator run pause.yml -m stdout
+- Run the following command, ping host
+ansible-navigator run ping.yml -m stdout

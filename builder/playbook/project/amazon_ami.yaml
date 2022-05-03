@@ -1,0 +1,7 @@
+---
+- hosts: localhost
+  tasks:
+    - name: test fake playbook against EE 
+      amazon.aws.ec2_ami_info:
+        image_ids: ami_fake
+        region: us-east-1

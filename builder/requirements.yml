@@ -1,0 +1,10 @@
+---
+
+collections:
+  - community.postgresql
+  - community.aws
+  - amazon.aws
+  - netbox.netbox
+
+
+...

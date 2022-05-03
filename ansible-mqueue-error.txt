@@ -1,0 +1,3 @@
+# WSL2 after a reboot removes mqueue, this recreates it
+sudo mkdir /dev/mqueue
+sudo mount -t mqueue none /dev/mqueue
