@@ -1,7 +1,7 @@
 ---
 ansible-navigator:
   execution-environment:
-    container-engine: podman
+    container-engine: docker
     enabled: true
     pull:
       policy: missing
