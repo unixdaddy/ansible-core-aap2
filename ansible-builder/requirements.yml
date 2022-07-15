@@ -1,3 +1,10 @@
 ---
+
 collections:
-  - servicenow.servicenow
+  - community.postgresql
+  - community.aws
+  - amazon.aws
+  - netbox.netbox
+
+
+...
