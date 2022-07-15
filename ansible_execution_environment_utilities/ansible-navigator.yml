@@ -1,7 +1,7 @@
 ---
 ansible-navigator:
   execution-environment:
-    container-engine: docker
+    container-engine: auto
     enabled: true
     pull:
       policy: missing

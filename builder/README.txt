@@ -2,6 +2,9 @@ podman search registry.redhat.io/ansible-builder
 podman search --list-tags registry.redhat.io/ansible-automation-platform-21/ansible-builder-rhel8
 podman search registry.redhat.io/ee-minimal-rhel8
 podman search --list-tags registry.redhat.io/ansible-automation-platform-21/ee-minimal-rhel8
+### lists all of them
+podman search registry.redhat.io/ee-rhel8
+
 podman login registry.redhat.io
 edit execution-environment.yml 
 version: 1

@@ -20,7 +20,7 @@ podman run -it localhost/test /bin/sh
 cd ansible_execution_environment_utilities/
 more README.adoc 
 ansible-navigator --help
-# change the engine in the ansible-navigator.yml or specify on commandline
+# change the engine or set to auto in the ansible-navigator.yml or specify on commandline
 ansible-navigator doc --ce docker
 ansible-navigator collections --ce docker
 ansible-navigator  --ce docker
