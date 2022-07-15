@@ -1,5 +1,5 @@
-python3 -m venv ansible-builder
-source ansible-builder/bin/activate
+python3 -m venv ansible
+source ansible/bin/activate
 pip install --upgrade pip
 pip install ansible
 pip install ansible-builder
@@ -8,7 +8,7 @@ ansible --version
 ansible-builder --version
 # gitpod comes with docker / WSL intall and use podman
 ###BUILDER
-cd builder/
+cd ansible-builder/
 # take a look at the requirements.yml, requirements.txt
 # important execution-environment.yml defines what is built and how
 ansible-builder build -t localhost/test
@@ -17,7 +17,7 @@ docker images
 docker run -it localhost/test /bin/sh
 podman run -it localhost/test /bin/sh
 ###NAVIGATOR
-cd ansible_execution_environment_utilities/
+cd ansible-navigator/
 more README.adoc 
 ansible-navigator --help
 # change the engine or set to auto in the ansible-navigator.yml or specify on commandline
@@ -28,8 +28,8 @@ ansible-navigator  --ce docker
 # due to the uid 3333 that gitpod uses
 # sudo -i
 # cd /workspace/ansible-builder/
-# source ansible-builder/bin/activate
-cd ansible_execution_environment_utilities
+# source ansible/bin/activate
+cd ansible-navigator
 ansible-navigator run pause.yml --eei localhost/test -m stdout
 ansible localhost -m ansible.builtin.pause -a "seconds=10"
 ansible-playbook pause.yml 
@@ -51,9 +51,9 @@ ansible-navigator exec "ansible localhost -m setup" --eei localhost/test
 ansible-navigator builder --help
 ansible-navigator builder --help-bilder
 cd ..
-cd builder/
+cd ansible-builder/
 # need a execution-environment.yml
 ansible-navigator builder build -t localhost/tester
 # need to be in the directory with ansible-navigator.yml 
-cd ../ansible_execution_environment_utilities
+cd ../ansible-navigator
 ansible-navigator exec "echo using tester" --eei localhost/tester
