@@ -1,0 +1,59 @@
+python3 -m venv ansible-builder
+source ansible-builder/bin/activate
+pip install --upgrade pip
+pip install ansible
+pip install ansible-builder
+pip install ansible-navigator
+ansible --version
+ansible-builder --version
+# gitpod comes with docker / WSL intall and use podman
+###BUILDER
+cd builder/
+# take a look at the requirements.yml, requirements.txt
+# important execution-environment.yml defines what is built and how
+ansible-builder build -t localhost/test
+docker images
+#podman images
+docker run -it localhost/test /bin/sh
+podman run -it localhost/test /bin/sh
+###NAVIGATOR
+cd ansible_execution_environment_utilities/
+more README.adoc 
+ansible-navigator --help
+# change the engine in the ansible-navigator.yml or specify on commandline
+ansible-navigator doc --ce docker
+ansible-navigator collections --ce docker
+ansible-navigator  --ce docker
+# in git pod need to switch to root and then activate venv - ansible fails otherwise
+# due to the uid 3333 that gitpod uses
+# sudo -i
+# cd /workspace/ansible-builder/
+# source ansible-builder/bin/activate
+cd ansible_execution_environment_utilities
+ansible-navigator run pause.yml --eei localhost/test -m stdout
+ansible localhost -m ansible.builtin.pause -a "seconds=10"
+ansible-playbook pause.yml 
+ansible-navigator run ping.yml --eei localhost/test -m stdout
+docker images
+ansible-navigator run ping-local.yml  -m stdout -vvv
+ansible-navigator settings -m stdout
+ansible-navigator settings 
+ansible-navigator run ping-local.yml -m stdout
+ansible-navigator run ping-local.yml --eei localhost/test -m stdout
+#commands in container
+ansible-navigator exec pwd  --eei localhost/test -m stdout
+ansible-navigator exec "cat /etc/os-release"  --eei localhost/test -m stdout
+#ansible adhoc commands
+ansible-navigator exec "ansible --version" 
+ansible-navigator exec "ansible --version" --eei localhost/test
+ansible-navigator exec "ansible localhost -m setup" --eei localhost/test
+###NAVIGATOR can now build
+ansible-navigator builder --help
+ansible-navigator builder --help-bilder
+cd ..
+cd builder/
+# need a execution-environment.yml
+ansible-navigator builder build -t localhost/tester
+# need to be in the directory with ansible-navigator.yml 
+cd ../ansible_execution_environment_utilities
+ansible-navigator exec "echo using tester" --eei localhost/tester
