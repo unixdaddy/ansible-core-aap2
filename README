@@ -17,6 +17,7 @@ ansible-builder build -t localhost/test
 docker images
 #podman images
 docker run -it localhost/test /bin/sh
+   ansible-galaxy collection list
 podman run -it localhost/test /bin/sh
 ###NAVIGATOR
 cd ansible-navigator/
@@ -59,3 +60,4 @@ ansible-navigator builder build -t localhost/tester
 # need to be in the directory with ansible-navigator.yml 
 cd ../ansible-navigator
 ansible-navigator exec "echo using tester" --eei localhost/tester
+ansible-navigator exec "ansible-galaxy collection list" --eei localhost/tester
