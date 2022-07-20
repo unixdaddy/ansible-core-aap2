@@ -1,5 +1,12 @@
 ### https://github.com/unixdaddy/ansible_aio_ee.git look at this for fun
 
+GITPOD  (ONLY)
+-------
+fork me 
+open fork in gitpod (replace username) - gitpod.io/#https://github.com/username/ansible-builder
+
+Gitpod / WSL
+------------
 python3 -m venv ansible
 source ansible/bin/activate
 pip install --upgrade pip
@@ -8,41 +15,70 @@ pip install ansible-builder
 pip install ansible-navigator
 ansible --version
 ansible-builder --version
-# gitpod comes with docker / WSL intall and use podman
-###BUILDER
+
+WSL (ONLY)
+-----------
+# RHEL/OEL
+sudo dnf repolist
+sudo dnf install podman skopeo buildah 
+# Ubunut/Debian
+sudo apt update
+sudo apt install 
+
+Gitpod / WSL
+-------------
+# gitpod uses docker 
+# WSL use podman
+
+###Using ANSIBLE BUILDER
 cd ansible-builder/
 # take a look at the requirements.yml, requirements.txt
 # important execution-environment.yml defines what is built and how
 ansible-builder build -t localhost/test
-docker images
-#podman images
+docker images # gitpod
+podman images # WSL
+
 docker run -it localhost/test /bin/sh
-   ansible-galaxy collection list
+$  ansible-galaxy collection list
+
 podman run -it localhost/test /bin/sh
-###NAVIGATOR
+$  ansible-galaxy collection list
+
+###USING NAVIGATOR
+
 cd ansible-navigator/
 more README.adoc 
 ansible-navigator --help
-# change the engine or set to auto in the ansible-navigator.yml or specify on commandline
+# specify the engine or set to auto in the ansible-navigator.yml 
+  # container_engine: auto
+# Alternatively specify engine on commandline (--ce docker or podman)
 ansible-navigator doc --ce docker
 ansible-navigator collections --ce docker
 ansible-navigator  --ce docker
-# in git pod need to switch to root and then activate venv - ansible fails otherwise
+
+Gitpod (ONLY) for Navigator to work 
+-----------
+# need to switch to root and then activate venv - ansible fails otherwise
 # due to the uid 3333 that gitpod uses
-# sudo -i
-# cd /workspace/ansible-builder/
-# source ansible/bin/activate
+sudo -i
+cd /workspace/ansible-builder/
+source ansible/bin/activate
+
+GITPOD / WSL
+-------------
 cd ansible-navigator
 ansible-navigator run pause.yml --eei localhost/test -m stdout
 ansible localhost -m ansible.builtin.pause -a "seconds=10"
 ansible-playbook pause.yml 
 ansible-navigator run ping.yml --eei localhost/test -m stdout
-docker images
+docker images # gitpod
+podman images # WSL
 ansible-navigator run ping-local.yml  -m stdout -vvv
 ansible-navigator settings -m stdout
 ansible-navigator settings 
 ansible-navigator run ping-local.yml -m stdout
 ansible-navigator run ping-local.yml --eei localhost/test -m stdout
+
 #commands in container
 ansible-navigator exec pwd  --eei localhost/test -m stdout
 ansible-navigator exec "cat /etc/os-release"  --eei localhost/test -m stdout
@@ -50,7 +86,8 @@ ansible-navigator exec "cat /etc/os-release"  --eei localhost/test -m stdout
 ansible-navigator exec "ansible --version" 
 ansible-navigator exec "ansible --version" --eei localhost/test
 ansible-navigator exec "ansible localhost -m setup" --eei localhost/test
-###NAVIGATOR can now build
+
+###NAVIGATOR can now also build (don't need ansible-builder)
 ansible-navigator builder --help
 ansible-navigator builder --help-bilder
 cd ..
