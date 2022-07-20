@@ -1,2 +1,3 @@
 ansible_execution_environment_utilities/ansible-navigator.log
 builder/ansible-navigator.log
+ansible/*
