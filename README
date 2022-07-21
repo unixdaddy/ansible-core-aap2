@@ -1,7 +1,7 @@
 GITPOD  (ONLY)
 -------
 fork me 
-open fork in gitpod (replace username) - gitpod.io/#https://github.com/username/ansible-builder
+open fork in gitpod (replace username) by putting the following URL - "gitpod.io/#https://github.com/username/ansible-builder"
 
 Gitpod / WSL
 ------------
