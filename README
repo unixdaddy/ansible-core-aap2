@@ -36,12 +36,14 @@ podman images # WSL
 
 # gitpod
 docker run -it localhost/test /bin/sh
-$  ansible-galaxy collection list
-
-#n WSL
+  $ ansible-galaxy collection list
+  exit
+  
+# WSL
 podman run -it localhost/test /bin/sh
-$  ansible-galaxy collection list
-
+  $ ansible-galaxy collection list
+  exit
+  
 ###USING NAVIGATOR
 
 cd ../ansible-navigator/
@@ -54,7 +56,7 @@ ansible-navigator doc -l --ce docker
 ansible-navigator collections --ce docker
 ansible-navigator  --ce docker
 
-# it's set to auto
+# THIS REPO IS SETUP FOR auto
 
 Gitpod (ONLY) for Navigator to work 
 -----------
