@@ -19,4 +19,4 @@ dependencies:
 rm -rf context
 ansible-builder create
 Note: can copy your CUSTOM collection file into context directory
-ansbile-builder build
+ansible-builder build --tag localhost/my_images -v 3
