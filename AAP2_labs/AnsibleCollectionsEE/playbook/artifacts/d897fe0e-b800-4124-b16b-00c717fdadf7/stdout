@@ -1,0 +1,13 @@
+[1;35m[WARNING]: Unable to parse /runner/inventory/hosts as an inventory source[0m
+[1;35m[WARNING]: No inventory was parsed, only implicit localhost is available[0m
+[1;35m[WARNING]: provided hosts list is empty, only localhost is available. Note that[0m
+[1;35mthe implicit localhost does not match 'all'[0m
+
+PLAY [localhost] ***************************************************************
+
+TASK [Gathering Facts] *********************************************************
+[0;32mok: [localhost][0m
+
+TASK [Pause for 10 minutes] ****************************************************
+Pausing for 600 seconds
+(ctrl+C then 'C' = continue early, ctrl+C then 'A' = abort)

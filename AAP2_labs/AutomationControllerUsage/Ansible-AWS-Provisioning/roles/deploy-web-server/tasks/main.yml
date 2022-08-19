@@ -1,0 +1,60 @@
+---
+# tasks file for deploy-web-server
+- name: Delete content & directory
+  ansible.builtin.file:
+    state: absent
+    path: /var/www/html
+    force: yes
+
+- name: Create directory
+  ansible.builtin.file:
+    state: directory
+    path: /var/www/html
+    mode: '0755'
+
+- name: Install httpd and firewalld
+  ansible.builtin.apt:
+    name: 
+      - ufw
+      - git
+    state: latest
+
+- name: Git checkout
+  ansible.builtin.git:
+    repo: 'https://github.com/everimus/one-page-website'
+    dest: /var/www/html
+    version: gh-pages
+    update: yes
+    force: yes
+
+- name: Install httpd and firewalld
+  ansible.builtin.apt:
+    name: 
+      - apache2
+    state: latest
+
+- name: Enable and Run ufw
+  ansible.builtin.service: 
+    name: ufw
+    enabled: true
+    state: started
+
+- name: ufw permitt httpd service
+  community.general.ufw:
+    rule: allow
+    name: '{{ item }}'
+  loop:
+    - "Apache Full"
+    - OpenSSH
+
+- name: httpd enabled and running
+  ansible.builtin.service:
+    name: apache2
+    enabled: true
+    state: started
+
+- name: Set Hostname on Site
+  ansible.builtin.replace:
+    path: /var/www/html/index.html
+    regexp: 'Installed using Ansible'
+    replace: "Installed using Ansible. {{ inventory_hostname }}"

@@ -1,0 +1,25 @@
+---
+- name: get node facts for SNOW
+  #hosts: nodes
+  hosts: localhost
+  vars:
+    node_info: []
+
+  tasks:
+
+  - name: Collect inventory facts
+    #ansible.builtin.set_stats:
+    set_fact:
+      data:
+        node_info: "{{ node_info + [{'hostname': ansible_facts['nodename'], 'default_ip': ansible_facts['default_ipv4']['address'], 'default_mac': ansible_facts['default_ipv4']['macaddress'], 'vendor': ansible_facts['product_name'] }] }}"
+# copied from the other playbook - could be used seperately in a workflow
+  - name: Create/update configuration item
+    servicenow.itsm.configuration_item:
+      name: "{{ item.hostname }}"
+      ip_address: "{{ item.default_ip }}"
+      mac_address: "{{ item.default_mac }}"
+      environment: test
+      other:
+        sys_class_name: cmdb_ci_linux_server
+    loop: "{{ node_info }}"
+    register: configuration_item

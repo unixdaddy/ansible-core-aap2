@@ -1,0 +1,15 @@
+collections:
+  - name: community.digitalocean
+    source: https://galaxy.ansible.com
+#  - name: amazon.aws
+#    source: https://galaxy.ansible.com
+  - name: community.aws
+    source: https://galaxy.ansible.com
+  - name: google.cloud
+    source: https://galaxy.ansible.com
+  - name: azure.azcollection
+    source: https://galaxy.ansible.com
+  - name: servicenow.servicenow
+    source: https://galaxy.ansible.com
+  - name: servicenow.itsm
+    source: https://galaxy.ansible.com

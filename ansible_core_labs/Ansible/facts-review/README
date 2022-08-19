@@ -1,0 +1,77 @@
+## create 3 instances of ubuntu on AcloudGuru AWS Playground CONSOLE
+### create new key - ansible_key.pem (ED25519)
+### allow ssh, http, https from anywhere 
+### copy the ansible_key.pem to your home directory on WSL
+### chmod 400 ansible_key.pem
+
+## update ansible.cfg with the path to the keyfile
+
+## test connectivity
+ssh ubuntu@PUBLIC_IP -i /path/to/ansible_key.pem
+
+## update inventory with correct IPs
+vim inventory
+
+## test ansible connectivity - inventory should be correct for this to work
+
+ansible all -m ping
+
+
+## ansible.cfg file
+## ===============================================
+
+[defaults]
+
+host_key_checking = False
+std_callback=minimal
+### you will need to change this key
+private_key_file = /home/dmcrae/ansible-key.pem
+inventory=inventory
+
+[privilege_escalation]
+become=True
+
+[ssh_connection]
+pipelining = True
+
+## inventory file
+##=====================================================
+ansible-3 ansible_host=54.226.6.55 ansible_user=ubuntu
+ansible-2 ansible_host=54.208.188.113 ansible_user=ubuntu
+ansible-1 ansible_host=54.145.1.34 ansible_user=ubuntu
+
+[web]
+ansible-1
+ansible-2
+
+## Adhoc - getting facts
+
+ansible all -m ansible.builtin.setup |more
+ansible ansible-1 -m setup |more # see what is reported for ansible-1
+ansible all -m ansible.builtin.setup -a 'filter=ansible_*_mb'
+ansible all -m ansible.builtin.setup -a 'filter=ansible_distribution'
+ansible all -m ansible.builtin.setup -a 'filter=ansible_hostname'
+ansible all -m ansible.builtin.setup -a 'filter=ansible_eth[0-2]'
+
+## Playbook - getting facts 
+
+ansible-playbook facts.yaml # you will get all facts and a subset in the playbook
+
+alter facts.yaml to filter on the ansible_hostname or ansible_distribution (there are some examples)
+
+## custom facts 
+
+### run a playbook to copy facts.d and contents to /etc/ansible/ (custom facts directory) on the web group
+
+ansible-playbook copy.yaml 
+
+ansible web -a "ls -l /etc/ansible/facts.d/"
+
+### then check that the custom fact is reported
+
+ansible web -m ansible.builtin.setup -a 'filter=ansible_local'
+
+### create some additional files in facts.d in the same format as pete.fact and rerun the copy.yaml
+
+ansible-playbook copy.yaml 
+ansible web -m ansible.builtin.setup -a 'filter=ansible_local'

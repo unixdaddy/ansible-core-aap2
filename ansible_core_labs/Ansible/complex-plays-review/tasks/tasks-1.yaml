@@ -1,0 +1,4 @@
+---
+- name: Task - note no servers listed just tasks in this file
+  debug:
+    msg: This is another task - 2 "{{item|default(omit)}}" 

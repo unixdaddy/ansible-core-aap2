@@ -1,0 +1,7 @@
+---
+# tasks file for roles/precedence
+  - name: Touch the same file, but add/remove some permissions
+    ansible.builtin.file:
+      path: "{{filename}}"
+      state: touch
+      mode: u+rw,g-wx,o-rwx

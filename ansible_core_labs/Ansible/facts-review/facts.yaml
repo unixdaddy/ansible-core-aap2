@@ -1,0 +1,19 @@
+---
+- name: blahblahblah
+  hosts: web
+  #gather_facts: no
+  #become: true
+
+  tasks:
+  - name: all facts
+    debug:
+      var: ansible_facts
+  - name: filter facts
+    debug:
+      #msg: This is a fact "{{ansible_facts.fqdn}}"
+      msg: This is a fact "{{ansible_facts['fqdn']}}"
+      #msg: This is a fact "{{ansible_facts['default_ipv4']['address']}}"
+      #msg: This is a fact "{{ansible_default_ipv4['address']}}"
+      #msg: This is the first device "{{ansible_facts['mounts'][0]['device']}}"
+      #var: ansible_facts['mounts'][0]['device']
+      #var: ansible_facts['date_time']['date']

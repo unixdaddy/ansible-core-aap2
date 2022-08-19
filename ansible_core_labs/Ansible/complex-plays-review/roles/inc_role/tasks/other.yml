@@ -1,0 +1,12 @@
+---
+# tasks file for roles/inc_role
+- set_fact:
+    role_setfact_var: testvalue
+
+- name: reading from set_facts
+  debug:
+    msg: This is a VAR '{{role_setfact_var}}'
+
+- name: reading from role/defaults/other.yml
+  debug:
+    msg: This is a VAR "{{ USERNAME }}"

@@ -1,0 +1,40 @@
+https://www.ansible.com/blog/released-automation-content-navigator-2.0
+
+# SSH KEYS in EE
+# load the key
+eval $(ssh-agent)
+# add the key you generated to ssh-agent (not in standard location .ssh)
+ssh-add ansible_key.pem
+# check what keys are loaded
+ssh-add -L|-l
+# they will get loaded in the exection env
+
+# SETTINGS 
+ansible-navtigator settings
+# generate a sample settings file
+ansible-navigator settings --sample 
+ansible-navigator settings --sample > ansible-navigator.yml
+
+# LINT (tech preview)
+ansible-navigator lint <yaml>
+
+# BUILDER
+ansible-navigator builder --help
+ansible-navigator builder --help-builder
+# using builder - i can point to the directory containing the execution-environment.yml 
+# in ~/ansible-builder/ansible-navigator directory
+ansible-navigator builder build --workdir ../ansible-builder/
+# another example with tag
+ansible-navigator builder build --tag localhost/testme --workdir ../ansible-builder/
+# another example in ~/grad_repo/AnsibleCollectionsEE directory
+ansible-navigator builder build --tag localhost/testme --workdir ../../ansible-builder/ansible-builder/
+
+# EXEC
+ansible-navigator exec pwd  --eei localhost/test -m stdout
+ansible-navigator exec "cat /etc/os-release"  --eei localhost/test -m stdout
+#ansible adhoc commands
+ansible-navigator exec "ansible --version"
+ansible-navigator exec "ansible --version" --eei localhost/test
+ansible-navigator exec "ansible localhost -m setup" --eei localhost/test
+ansible-navigator exec "echo using tester" --eei localhost/tester
+ansible-navigator exec "ansible-galaxy collection list" --eei localhost/tester

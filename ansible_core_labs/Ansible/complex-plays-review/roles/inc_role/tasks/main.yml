@@ -1,0 +1,5 @@
+---
+# tasks file for roles/inc_role
+  - name: filter facts - Hostname
+    debug:
+      msg: This is hostname "{{ansible_facts['hostname']}}"

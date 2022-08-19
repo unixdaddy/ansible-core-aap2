@@ -1,0 +1,26 @@
+---
+- name: Using INCLUDE examples
+  hosts: web
+  #gather_facts: no
+  #become: true
+
+  tasks:
+  # instead of using roles: directive include a role - runs main.yml
+  - name: include role 'role/inc_role/tasks/main.yml'
+    include_role:
+      name: inc_role
+
+  # include a role but a specify different task file and defaults file
+  - name: include role 'roles/inc_role/tasks/other.yml and roles/inc_role/defaults/other.yml'
+    include_role:
+      name: inc_role
+      tasks_from: other
+      defaults_from: other
+
+  - name: include tasks (not role)
+    include_tasks: tasks/tasks.yaml
+
+  - name: include another tasks (not role)
+    include_tasks: tasks/tasks-1.yaml
+    loop: ['TRUE','FALSE']
+      

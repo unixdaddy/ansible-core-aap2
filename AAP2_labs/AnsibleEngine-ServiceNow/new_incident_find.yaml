@@ -1,0 +1,23 @@
+---
+- name: Using ServiceNow Collection
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  collections:
+    - servicenow.servicenow
+
+  tasks:
+  - name: Search for incident assigned to group, return specific fields
+    snow_record_find:
+      username: "{{ lookup('env', 'SN_USERNAME') }}"
+      password: "{{ lookup('env', 'SN_PASSWORD') }}"
+      instance: "{{ lookup('env', 'SN_INSTANCE') }}"
+      table: incident
+      query:
+           number: '{{ sn_number }}' #INC0010009
+      return_fields:
+        - number
+        - opened_at
+    register: incident
+  - debug:
+       var: incident

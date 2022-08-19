@@ -1,0 +1,130 @@
+## create 3 instances of ubuntu on AcloudGuru AWS Playground CONSOLE
+### create new key - ansible_key.pem (ED25519)
+### allow ssh, http, https from anywhere 
+### copy the ansible_key.pem to your home directory on WSL
+### chmod 400 ansible_key.pem
+
+## update ansible.cfg with the path to the keyfile
+
+## test connectivity
+ssh ubuntu@PUBLIC_IP -i /path/to/ansible_key.pem
+
+## update inventory with correct IPs
+vim inventory
+
+## test ansible connectivity - inventory should be correct for this to work
+
+ansible all -m ping
+
+
+## ansible.cfg file
+## ===============================================
+
+[defaults]
+
+host_key_checking = False
+std_callback=minimal
+### you will need to change this key
+private_key_file = /home/dmcrae/ansible-key.pem
+inventory=inventory
+
+[privilege_escalation]
+become=True
+
+[ssh_connection]
+pipelining = True
+
+## inventory file
+ansible-3 ansible_host=54.226.6.55 ansible_user=ubuntu
+ansible-2 ansible_host=54.208.188.113 ansible_user=ubuntu
+ansible-1 ansible_host=54.145.1.34 ansible_user=ubuntu
+
+[web]
+ansible-1
+ansible-2
+
+## Original Playbook - see apache2.yaml
+---
+- name: Install and start Apache HTTPD
+  hosts: web
+  tasks:
+    - name: httpd package is present
+      apt:
+        name: apache2
+        state: present
+    - name: correct index.html is present
+      copy:
+        src: files/index.html
+        dest: /var/www/html/index.html
+    - name: httpd is started
+      service:
+        name: apache2
+        state: started
+        enabled: true
+
+## Create role structure
+mkdir roles
+ansible-galaxy role init ./roles/package
+ansible-galaxy role init ./roles/index 
+more apache2.yaml
+
+## create package task in role
+cat apache2.yaml >> roles/package/tasks/main.yml
+vim roles/package/tasks/main.yml
+
+
+### roles/package/tasks/main.yml
+---
+# tasks file for package
+    - name: httpd package is present
+      apt:
+        name: apache2
+        state: present
+
+
+## create index task in role
+cat apache2.yaml >> roles/index/tasks/main.yml
+vim roles/index/tasks/main.yml
+
+### roles/index/tasks/main.yml
+---
+# tasks file for index
+    - name: correct index.html is present
+      copy:
+        src: index.html
+        dest: /var/www/html/index.html
+      notify: httpd 
+
+## copy file to index role files directory
+cp files/index.html roles/index/files/
+
+### roles/index/files/index.html
+HELLO
+
+## setup handler in index roles handlers directory
+cat apache2.yaml >> roles/index/handlers/main.yml
+vim roles/index/handlers/main.yml
+
+### roles/index/handlers/main.yml
+---
+# handlers file for index
+    - name: httpd
+      service:
+        name: apache2
+        state: started
+        enabled: true
+
+## edit Site.yml to use new roles
+mv apache2.yaml site.yaml
+vim site.yaml
+
+### site.yml
+---
+- name: Install and start Apache HTTPD
+  hosts: web
+  roles:
+    - package
+    - index
+
+## run playbook with roles
+ansible-playbook site.yaml  

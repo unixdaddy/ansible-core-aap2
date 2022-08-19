@@ -1,0 +1,36 @@
+---
+- name: Using ServiceNow Collection
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  collections:
+    - servicenow.servicenow
+
+  tasks:
+  #- name: Install snow python package <-- need to look at using k8s module and venv?!!??
+  #  pip:
+  #    name: pysnow
+    
+  # Don't need encrypted vault file if we use ENV SN_USERNAME, SN_PASSWORD and SN_INSTANCE
+  # which we would do if setup in TOWER if not not using ENV then update vault file password
+  # and uncomment next 2 lines
+  # - name: load vars for use in incident
+  #  include_vars: password.yaml
+  #
+  # Check Passwor from ENV - Funny character $ created a problem
+  - name: Basic lookup
+    debug:
+      msg: "'{{ lookup('env', 'SN_PASSWORD') }}' is the value"
+  - name: Create an incident
+    servicenow.servicenow.snow_record:
+      # username: admin
+      # password: "{{ lookup('env', 'SN_PASSWORD') }}"
+      # instance: dev72659
+        state: present
+        data:
+          short_description: "This is a test incident opened by Ansible"
+          severity: 3
+          priority: 2
+    register: new_incident
+  - debug:
+          var: new_incident.record.number

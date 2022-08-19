@@ -1,0 +1,7 @@
+  collections:
+  - name: community.aws
+    source: https://galaxy.ansible.com
+  - name: amazon.aws
+    source: https://galaxy.ansible.com
+#  - name: purestorage.flashblade
+#    source: https://console.redhat.com/api/automation-hub/content/6351851-synclist/

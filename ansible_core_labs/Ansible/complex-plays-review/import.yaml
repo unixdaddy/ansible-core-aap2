@@ -1,0 +1,30 @@
+---
+- name: Using IMPORT examples
+  hosts: web
+  #gather_facts: no
+  #become: true
+
+  tasks:
+  # instead of using roles: directive include a role - runs main.yml
+  - name: import role 'role/inc_role/tasks/main.yml'
+    import_role:
+      name: inc_role
+
+  # include a role but a specify different task file and defaults file
+  - name: import role 'roles/inc_role/tasks/other.yml and roles/inc_role/defaults/other.yml'
+    import_role:
+      name: inc_role
+      tasks_from: other
+      defaults_from: other
+
+  - name: import tasks (not role)
+    import_tasks: tasks/tasks.yaml
+
+  - name: import another tasks (not role)
+    import_tasks: tasks/tasks-1.yaml
+    #loop: ['TRUE','FALSE']
+
+# Note this is at the same level as the,  it's a NEW play
+- name: import a playbook - USES DIFFERENT HOSTS
+  import_playbook: playbooks/playbook.yaml
+      

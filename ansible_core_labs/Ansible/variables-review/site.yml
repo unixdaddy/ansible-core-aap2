@@ -1,0 +1,11 @@
+---
+- name: blahblahblah
+  hosts: web
+  #become: true
+  #vars_files:
+  #  - vars/web
+  #vars:
+  #  filename: /home/ubuntu/INV_VAR.txt
+
+  roles:
+  - precedence

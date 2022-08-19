@@ -1,0 +1,11 @@
+---
+- name: blahblahblah
+  hosts: web
+  #gather_facts: no
+  become: true
+
+  tasks:
+  - name: copy over my facts
+    ansible.builtin.copy:
+      src: facts.d
+      dest: /etc/ansible

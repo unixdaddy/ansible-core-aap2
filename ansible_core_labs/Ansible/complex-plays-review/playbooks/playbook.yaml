@@ -1,0 +1,5 @@
+- name: IMPORT PLAYBOOK
+  hosts: germany
+  tasks:
+    - debug:
+        msg: play1

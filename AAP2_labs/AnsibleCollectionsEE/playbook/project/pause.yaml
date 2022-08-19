@@ -1,0 +1,6 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Pause for 10 minutes 
+      pause:
+       minutes: 10

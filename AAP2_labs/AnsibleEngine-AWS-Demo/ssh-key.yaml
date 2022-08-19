@@ -1,0 +1,17 @@
+# setup the aws variables
+# create the key - 
+# aws ec2 create-key-pair --key-name ansible_key --query 'KeyMaterial' --output text > ansible_key.pem
+# chmod 400 ansible_key.pem
+# load the key
+# eval $(ssh-agent)
+# ssh-add ansible_key.pem
+# ssh-add -L|-l
+# create a vm using the aws_deploy script
+# get the public ip and upate the inventory
+# ansible-navigator run ssh-key.yaml -u ubuntu -b -i inventory 
+- name: testing pem key connection
+  hosts: web
+  tasks:
+  - name: install something 
+    apt:
+      name: apache2

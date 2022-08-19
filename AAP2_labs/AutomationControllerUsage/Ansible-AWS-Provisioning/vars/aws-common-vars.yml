@@ -1,0 +1,33 @@
+---
+# variables aws environment
+vpc_id: ""
+vpc_subnet_list: []
+
+region: us-east-1
+aws_region: us-east-1
+elbgroupname: webtarget
+
+inventory_webgroup: ec2webservers
+existing_ec2_list: []
+new_ec2_list: []
+existing_ec2_public_ips: []
+
+subnet1: subnet-0352cb0c0810ca5f0
+subnet2: subnet-0b53d9ad74d47486c
+ap_zone1: us-east-1a
+ap_zone2: us-east-1b
+ap_zone3: us-east-1c
+ap_zone4: us-east-1d
+ap_zone5: us-east-1e
+ap_zone6: us-east-1f
+aws_key_pem: /home/dmcrae/.ssh/id_rsa
+aws_demo_key: 'ansible_iac_demo_key'
+aws_security_group: 'ansible_iac_demo_sg'
+#aws_elb_target_group: 'ansible-iac-demo-elbtarget'
+aws_elb_app_lb: 'ansible-iac-demo-elb-app-lb'
+
+aws_ami_id: 'ami-09d56f8956ab235b3' 
+
+# variables for elb and target group
+#elb_target_group : elb-targetgrp-ansibe-demo
+#elb_name: elb-ansibe-demo   

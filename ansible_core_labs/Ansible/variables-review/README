@@ -1,0 +1,134 @@
+## create 3 instances of ubuntu on AcloudGuru AWS Playground CONSOLE
+### create new key - ansible_key.pem (ED25519)
+### allow ssh, http, https from anywhere 
+### copy the ansible_key.pem to your home directory on WSL
+### chmod 400 ansible_key.pem
+
+## update ansible.cfg with the path to the keyfile
+
+## test connectivity
+ssh ubuntu@PUBLIC_IP -i /path/to/ansible_key.pem
+
+## update inventory with correct IPs
+vim inventory
+
+## test ansible connectivity - inventory should be correct for this to work
+
+ansible all -m ping
+
+## ansible.cfg file
+## ===============================================
+
+[defaults]
+
+host_key_checking = False
+std_callback=minimal
+### you will need to change this key
+private_key_file = /home/dmcrae/ansible-key.pem
+inventory=inventory
+
+[privilege_escalation]
+become=True
+
+[ssh_connection]
+pipelining = True
+
+## inventory file
+ansible-3 ansible_host=54.226.6.55 ansible_user=ubuntu
+ansible-2 ansible_host=54.208.188.113 ansible_user=ubuntu
+ansible-1 ansible_host=54.145.1.34 ansible_user=ubuntu
+
+[web]
+ansible-1
+ansible-2
+
+## Original Playbook - see file.yaml
+---
+- name: blahblahblah
+  hosts: web
+  vars_files:
+    - vars/web
+  vars:
+    filename: /home/ubuntu/INV_VAR.txt
+
+  tasks:
+  - name: Touch the same file, but add/remove some permissions
+    ansible.builtin.file:
+      path: "{{filename}}"
+      state: touch
+      mode: u+rw,g-wx,o-rwx
+
+## Create vars/web
+
+mkdir vars
+vim vars/web
+
+### var/web file
+filename: /home/ubuntu/OWN_VARS_FILE.txt
+
+
+## Create group_vars/web
+
+mkdir group_vars
+vim group_vars/web
+
+### group_vars/web file
+filename: /home/ubuntu/GROUP_FILE.txt
+
+## Create host_vars/web
+
+mkdir host_vars
+vim host_vars/ansible-2
+
+### host_vars/ansible-2 file
+filename: /home/ubuntu/HOST_FILE.txt
+
+## execute the playbook
+
+ansible-playbook file.yaml
+
+which file gets created? INV_VAR.txt, OWN_VARS_FILE.txt, GROUP_FILE.txt, HOST_FILE.txt 
+-  comment out vars_files and / or vars from file.yaml and see what happens
+
+to check
+ansible web -a "ls /home/ubuntu"
+
+to tidy up
+ansible web -m shell -a "rm /home/ubuntu/*.txt"
+
+what about running with extra vars?
+
+ansible-playbook file.yaml -e "filename=/home/ubuntu/EXTRA_VAR.txt"
+to check
+ansible web -a "ls /home/ubuntu"
+
+to tidy up
+ansible web -m shell -a "rm /home/ubuntu/*.txt"
+
+## Use a Role
+
+### site.yml
+---
+- name: blahblahblah
+  hosts: web
+  vars_files:
+    - vars/web
+  vars:
+    filename: /home/ubuntu/INV_VAR.txt
+
+  roles:
+  - precedence
+
+## execute the playbook
+
+ansible-playbook site.yml
+
+to check
+ansible web -a "ls /home/ubuntu"
+
+to tidy up
+ansible web -m shell -a "rm /home/ubuntu/*.txt"
+
+Roles are lowest precedent - overwritten by plays etc...
+
+

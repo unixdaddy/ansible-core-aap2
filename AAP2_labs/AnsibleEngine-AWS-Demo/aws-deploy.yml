@@ -1,0 +1,18 @@
+  - hosts: localhost 
+    connection: local
+    gather_facts: yes
+
+    tasks:
+      - name: Install
+        community.aws.ec2_instance:
+         name: "public-compute-instance1"
+         key_name: "ansible_key"
+         #vpc_subnet_id: subnet-5ca1ab1e
+         instance_type: t2.micro
+         security_group: example
+         #region: us-east-1
+         network:
+           assign_public_ip: true
+         image_id: ami-09d56f8956ab235b3
+         tags:
+           Environment: Testing

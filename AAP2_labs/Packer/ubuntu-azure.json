@@ -1,0 +1,53 @@
+{
+    "variables": {
+            "client_id": "63b9e4cb-3313-40a1-ba00-30614fec5143",
+            "client_secret": "00X8Q~rt5RfIOeinGz9rwN2cUO-MnUmOpRIJhaGu",
+            "subscription_id": "964df7ca-3ba4-48b6-a695-1ed9db5723f8",
+            "resource_group": "1-8752266d-playground-sandbox"
+    },
+    "builders": [
+        {
+            "type": "azure-arm",
+            "client_id": "{{user `client_id`}}",
+            "client_secret": "{{user `client_secret`}}",
+            "subscription_id": "{{user `subscription_id`}}",
+            "build_resource_group_name": "{{user `resource_group`}}",
+            "managed_image_resource_group_name": "{{user `resource_group`}}",
+            "managed_image_name": "packer-booksite-{{timestamp}}",
+
+            "os_type": "Linux",
+            "image_publisher": "Canonical",
+            "image_offer": "UbuntuServer",
+            "image_sku": "18.04-LTS",
+
+            "azure_tags": {
+                "role": "web",
+                "team": "frontend"
+            },
+
+            "vm_size": "Standard_A1_V2"
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "execute_command": "chmod +x {{ .Path }}; {{ .Vars }} sudo -E sh '{{ .Path }}'",
+            "inline_shebang": "/bin/sh -x",
+            "inline": [
+                "mkdir -p /var/www/html",
+                "chown -R packer:packer /var/www/html"
+            ]
+        },
+        {
+            "type": "file",
+            "source": "website/",
+            "destination": "/var/www/html/"
+        },
+        {
+            "type": "shell",
+            "execute_command": "chmod +x {{ .Path }}; {{ .Vars }} sudo -E sh '{{ .Path }}'",
+            "inline_shebang": "/bin/sh -x",
+            "inline": [ "/usr/sbin/waagent -force -deprovision+user && export HISTSIZE=0 && sync" ]
+        }
+    ]
+}

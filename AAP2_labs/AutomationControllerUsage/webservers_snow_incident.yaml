@@ -1,0 +1,97 @@
+---
+# Using my DO inventory - held in private repo cloned locally
+# ansible-playbook -i ../do_inventory/inventory webservers_snow_incident.yaml -e 'host_name=all' --ask-vault-pass
+- name: Install the apache web service
+  #could use this if inventory is grouped see hosts-ec2
+  #  hosts: webservers 
+  #hosts: all
+  # test Ansible Tower Survey
+  hosts: '{{ host_name }}'
+  #become: yes
+  collections:
+    - servicenow.servicenow
+
+  tasks:
+    # load vars for use in connection to ServiceNow
+    #- name: load password vars for use in incident
+    #  include_vars: password.yaml
+
+    - name: CENTOS Webservers setup  
+      block: 
+        - name: install CENTOS or REDHATpackages
+          become: true
+          become_user: root
+          action: >
+           {{ ansible_pkg_mgr }} name=httpd state=present update_cache=yes
+
+        - name: start CENTOS or REDHAT httpd
+          ignore_errors: yes
+          service:
+            name: httpd
+            state: started        
+
+      rescue:
+        - name: Create an incident - CENTOS or REDHAT
+          snow_record:
+            username: "admin"
+            #password: "{{ sn_password }}"
+            password: "{{ lookup('env', 'SN_PASSWORD') }}"
+            instance: "dev72659"
+            state: present
+            data:
+              short_description: "This is a test incident opened by Ansible - {{ ansible_hostname }}"
+              severity: "2"
+              priority: "2"
+              assigned_to: "abraham.lincoln"
+              assignment_group: "US Presidents Group 2"
+              work_notes: "from {{ ansible_hostname }}"
+          register: new_incident
+          delegate_to: localhost
+
+        - debug:
+            var: new_incident.record.number
+      always:
+        - debug:
+            msg: "Successful Install and Start on CENTOS or REDHAT"
+  
+      when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+      
+
+    - name: UBUNTU Webservers setup  
+      block: 
+        - name: install UBUNTU packages
+          become: true
+          become_user: root
+          action: >
+           {{ ansible_pkg_mgr }} name=apache2 state=present update_cache=yes
+
+        - name: start UBUNTU apache2
+          ignore_errors: yes
+          service:
+            name: apache2
+            state: started        
+      rescue:
+        - name: Create an incident - UBUNTU
+          snow_record:
+            username: "admin"
+            #password: "{{ sn_password }}"
+            password: "{{ lookup('env', 'SN_PASSWORD') }}"
+            instance: "dev72659"
+            state: present
+            data:
+              short_description: "This is a test incident opened by Ansible - {{ ansible_hostname }}"
+              severity: "2"
+              priority: "2"
+              assigned_to: "abraham.lincoln"
+              assignment_group: "US Presidents Group 2"
+              work_notes: "from {{ ansible_hostname }}"
+          register: new_incident1
+          delegate_to: localhost
+
+        - debug:
+            var: new_incident1.record.number
+      always:
+        - debug:
+            msg: "Successful Install and Start on UBUNTU"
+  
+      when: ansible_distribution == "Ubuntu"

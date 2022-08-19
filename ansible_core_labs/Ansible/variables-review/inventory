@@ -1,0 +1,8 @@
+#### You will need to replace these IPs
+ansible-3 ansible_host=44.202.248.31 ansible_user=ubuntu
+ansible-2 ansible_host=54.146.52.237 ansible_user=ubuntu
+ansible-1 ansible_host=3.82.242.207 ansible_user=ubuntu
+
+[web]
+ansible-1
+ansible-2

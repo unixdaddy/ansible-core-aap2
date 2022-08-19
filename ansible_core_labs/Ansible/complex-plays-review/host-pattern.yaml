@@ -1,0 +1,10 @@
+---
+- name: blahblahblah
+  hosts: emea
+  #gather_facts: no
+  #become: true
+
+  tasks:
+  - name: filter facts
+    debug:
+      msg: This is a fact "{{ansible_facts['fqdn']}}"
