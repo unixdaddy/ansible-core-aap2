@@ -80,6 +80,11 @@ ansible-navigator settings -m stdout
 ansible-navigator settings 
 ansible-navigator run ping-local.yml -m stdout
 ansible-navigator run ping-local.yml --eei localhost/test -m stdout
+# navigator in interactive mode - to filter on parameter
+ansible-navigator config 
+:f PARAMTER_NAME
+# to see all variables
+:f 
 
 #commands in container
 ansible-navigator exec pwd  --eei localhost/test -m stdout
@@ -99,5 +104,11 @@ ansible-navigator builder build -t localhost/tester
 cd ../ansible-navigator
 ansible-navigator exec "echo using tester" --eei localhost/tester
 ansible-navigator exec "ansible-galaxy collection list" --eei localhost/tester
+
+# INVENTORY
+# inventory file contains 
+localhost conection=local
+# query the inventory and return JSON
+ansible-navigator inventory -i hosts -m stdout --list
 
 ### https://github.com/unixdaddy/ansible_aio_ee.git look at this for fun - something for all modules

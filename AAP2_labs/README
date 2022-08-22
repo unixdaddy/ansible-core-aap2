@@ -14,6 +14,8 @@ ansible-navtigator settings
 # generate a sample settings file
 ansible-navigator settings --sample 
 ansible-navigator settings --sample > ansible-navigator.yml
+# using navigator without an execution environment
+ansible-navigator --ee false
 
 # LINT (tech preview)
 ansible-navigator lint <yaml>
@@ -38,3 +40,16 @@ ansible-navigator exec "ansible --version" --eei localhost/test
 ansible-navigator exec "ansible localhost -m setup" --eei localhost/test
 ansible-navigator exec "echo using tester" --eei localhost/tester
 ansible-navigator exec "ansible-galaxy collection list" --eei localhost/tester
+
+# CONFIG
+# navigator in interactive mode - to filter on parameter
+ansible-navigator config
+:f PARAMTER_NAME
+# to see all variables
+:f
+
+# INVENTORY
+# inventory file contains
+localhost conection=local
+# query the inventory and return JSON
+ansible-navigator inventory -i hosts -m stdout --list
