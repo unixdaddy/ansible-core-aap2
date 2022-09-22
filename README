@@ -1,3 +1,7 @@
+REFERENCES
+-----------
+WSL2 - https://ansible-navigator.readthedocs.io/en/latest/installation/#windows-with-wsl2
+
 GITPOD  (ONLY)
 -------
 fork me 
@@ -111,4 +115,4 @@ localhost conection=local
 # query the inventory and return JSON
 ansible-navigator inventory -i hosts -m stdout --list
 
-### https://github.com/unixdaddy/ansible_aio_ee.git look at this for fun - something for all modules
+### look at ansible_aio_ee folder for all-in-one ee 
