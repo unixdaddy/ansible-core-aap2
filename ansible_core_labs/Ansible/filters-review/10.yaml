@@ -1,0 +1,20 @@
+- name: Other Filters
+  hosts: localhost
+  gather_facts: false
+  tasks:
+  - name: Random value
+    debug:
+      var: 10000 | random 
+  - name: first in the list
+    debug:
+      var: my_simple_list | first  
+  - name: Length of the List
+    debug:
+      var: my_simple_list | length 
+  #- name: IPs
+  #  debug:
+  #    var: ip_list | ansible.netcommon.ipv4 
+  - name: generate a hashpassword
+    debug:
+      var: user_password | password_hash('sha512') 
+

@@ -1,0 +1,34 @@
+- name: converting the data
+  hosts: localhost
+  gather_facts: false
+  tasks:
+  - name: Display the type of a variable
+    debug:
+      var: true_boolean|type_debug
+  - name: convert 0 into a string "0"
+    debug:
+      var: zero|string
+  - name: Transforming a variable type
+    debug:
+      var: zero_string|int
+  - name: Display an integer as a boolean
+    debug:
+      var: non_zero | bool
+  - name: Display a string as a boolean
+    debug:
+      var: true_non_boolean | bool
+  - name: Display a string as a boolean
+    debug:
+      var: false_non_boolean | bool
+  - name: Display a string as a boolean
+    debug:
+      var: whatever | bool
+
+  - name: Lowercase a string of characters
+    debug:
+      var: whatever | lower
+
+  - name: Upercase a string of characters
+    debug:
+      var: whatever | upper
+

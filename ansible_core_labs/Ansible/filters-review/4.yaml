@@ -1,0 +1,12 @@
+- name: Joining data
+  hosts: localhost
+  gather_facts: false
+  tasks:
+  - name: Joining elements of a list
+    debug:
+      var: my_simple_list|join(",")
+
+  - name: Joining elements of a list
+    debug:
+      var: my_simple_list|join(" | ")
+

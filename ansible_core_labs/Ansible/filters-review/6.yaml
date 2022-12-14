@@ -1,0 +1,25 @@
+- name: Working with Lists
+  hosts: localhost
+  gather_facts: false
+  tasks:
+  - name: simple_list
+    debug:
+      var: my_simple_list 
+  - name: simple_list_2
+    debug:
+      var: my_simple_list_2
+  - name: Merger of two lists
+    debug:
+      var: my_simple_list | union(my_simple_list_2)
+
+  - name: Merger of two lists - keep only common
+    debug:
+      var: my_simple_list | intersect(my_simple_list_2)
+  - name: Merger of two lists - keep only unique from list 1
+    debug:
+      var: my_simple_list | difference(my_simple_list_2)
+  - name: Unique value in a list - if list as multiple of same value
+    debug:
+      var: my_simple_list | unique
+
+

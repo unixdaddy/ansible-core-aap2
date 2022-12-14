@@ -1,0 +1,21 @@
+- name: transforming data
+  hosts: localhost
+  gather_facts: false
+  tasks:
+  - name: Display a dictionary
+    debug:
+      var: my_dictionary
+
+  - name: Transforming a dictionary into a list
+    debug:
+      var: my_dictionary | dict2items
+
+  - name: Transforming a dictionary into a list
+    debug:
+      var: my_dictionary | dict2items(key_name='blah', value_name='blah1')
+      #var: my_dictionary | dict2items(key_name='key', value_name='value')
+
+  - name: Transforming a list into a dictionary
+    debug:
+      var: my_list | items2dict(key_name='element', value_name='value')
+

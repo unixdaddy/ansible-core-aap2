@@ -1,0 +1,17 @@
+- name: Default Values
+  hosts: localhost
+  gather_facts: false
+  tasks:
+  - name: Default value
+    debug:
+      var: variablethatdoesnotexists | default(whatever)
+  - name: Default value
+    debug:
+      var: variablethatdoesnotexists | default(whatever| quote)
+  - name: Add a new user
+    ansible.builtin.user:
+      name: "{{ user_name }}"
+      comment: "{{ user_comment | default(omit) }}"
+
+
+

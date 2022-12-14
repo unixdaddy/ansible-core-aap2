@@ -1,0 +1,14 @@
+---
+ansible-navigator:
+  ansible:
+    config:
+     path: ./ansible.cfg
+  execution-environment:
+    container-engine: auto
+    enabled: True
+  logging:
+    level: debug
+    append: False
+  playbook-artifact:
+     enable: false
+

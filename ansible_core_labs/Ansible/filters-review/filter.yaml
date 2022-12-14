@@ -1,0 +1,35 @@
+- name: Manipulating the data
+  hosts: localhost
+  gather_facts: false
+  vars:
+    zero: 0
+    zero_string: "0"
+    non_zero: 4
+    true_booleen: True
+    true_non_booleen: "True"
+    false_boolean: False
+    false_non_boolean: "False"
+    whatever: "It's false!"
+    user_name: antoine
+    my_dictionary:
+      key1: value1
+      key2: value2
+    my_simple_list:
+      - value_list_1
+      - value_list_2
+      - value_list_3
+    my_simple_list_2:
+      - value_list_3
+      - value_list_4
+      - value_list_5
+    my_list:
+      - element: element1
+        value: value1
+      - element: element2
+        value: value2
+
+  tasks:
+    - name: Print an integer
+      debug:
+        var: zero
+

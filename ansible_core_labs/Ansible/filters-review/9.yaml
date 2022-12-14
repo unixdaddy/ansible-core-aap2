@@ -1,0 +1,14 @@
+- name: Assign a Value based upon another
+  hosts: localhost
+  gather_facts: false
+  tasks:
+  - name: user_name value
+    debug:
+      var: user_name
+  - name: Default value
+    debug:
+      var: (user_name == 'antoine') | ternary('admin', 'normal_user')
+  - name: Default value
+    debug:
+      var: (user_name != 'antoine') | ternary('admin', 'normal_user')
+

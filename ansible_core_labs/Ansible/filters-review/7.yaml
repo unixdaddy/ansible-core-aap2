@@ -1,0 +1,15 @@
+- name: Transform to yaml/json
+  hosts: localhost
+  gather_facts: false
+  tasks:
+  - name: Display original list
+    debug:
+      var: my_list 
+  - name: Display a variable in yaml
+    debug:
+      var: my_list | to_nice_yaml(indent=4)
+
+  - name: Display a variable in json
+    debug:
+      var: my_list | to_nice_json(indent=4)
+

@@ -1,0 +1,29 @@
+https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_filters.html
+https://docs.rockylinux.org/books/learning_ansible/07-working-with-filters/
+
+filters
+
+- bool
+- string
+- int
+- lower
+- upper
+- replace
+- split
+- join
+- dict2items
+- items2dict
+- union
+- intersect
+- difference
+- unique
+- nice_to_yaml
+- nice_to_json
+- default
+- tenary
+- random
+- first
+- length
+- passwod_hash
+
+.....there are others

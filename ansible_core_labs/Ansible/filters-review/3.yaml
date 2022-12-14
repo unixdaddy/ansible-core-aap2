@@ -1,0 +1,16 @@
+- name: Manipulating the data
+  hosts: localhost
+  gather_facts: false
+  tasks:
+  - name: Replace a character in a string
+    debug:
+      var: whatever | replace(" ", "")
+
+  - name: Replace a word in a string
+    debug:
+      var: whatever | replace("false", "true")
+  - name: Cutting a string of characters
+    debug:
+      var: whatever | split(" ")
+
+

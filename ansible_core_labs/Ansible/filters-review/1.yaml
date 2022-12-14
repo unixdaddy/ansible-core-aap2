@@ -1,0 +1,8 @@
+- name: Manipulating the data
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Print an integer
+      debug:
+        var: zero
+
