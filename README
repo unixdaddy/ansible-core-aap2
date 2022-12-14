@@ -1,6 +1,12 @@
 REFERENCES
 -----------
 WSL2 - https://ansible-navigator.readthedocs.io/en/latest/installation/#windows-with-wsl2
+https://www.redhat.com/sysadmin/ansible-execution-environment-unconnected
+https://ansible-builder.readthedocs.io/en/stable/definition/#version-2
+
+execution-environment.yml = ansible-builder
+ansible-navigator.yml = ansible-navigator
+ansible.cfg = ansible/ansible-navigator
 
 GITPOD  (ONLY)
 -------
@@ -59,6 +65,10 @@ ansible-navigator --help
 ansible-navigator doc -l --ce docker
 ansible-navigator collections --ce docker
 ansible-navigator  --ce docker
+# create a default ansible.cfg with disabled settings
+ansible-navigator config init -m stdout --disabled --ee false > ansible.cfg
+# create a default navigator settings file
+ansible-navigator settings --sample > ansible-navigator.yml
 
 # THIS REPO IS SETUP FOR auto
 
@@ -114,5 +124,9 @@ ansible-navigator exec "ansible-galaxy collection list" --eei localhost/tester
 localhost conection=local
 # query the inventory and return JSON
 ansible-navigator inventory -i hosts -m stdout --list
+# convert ini format to yml - remove all, chilren (top-level under all) and ungrouped from the file
+ansible-navigator inventory -i hosts --list --ee false -m stdout --yaml
+ansible-navigator inventory -i ./ansible_core_labs/Ansible/facts-review/inventory --list --ee false -m stdout --yaml
 
 ### look at ansible_aio_ee folder for all-in-one ee 
+### look at AAP2_labs/README for examples 
