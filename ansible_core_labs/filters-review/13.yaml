@@ -1,0 +1,49 @@
+---
+## runs on host with --ee false
+- name: Network Filters
+  hosts: localhost
+  #gather_facts: true
+  become: no
+  tasks:
+  - name: pip install
+    ansible.builtin.pip:
+      name: netaddr
+  - name: Set Address and Network Facts
+    set_fact:
+      ipv4_addr: "{{ ansible_facts['default_ipv4']['address'] }}"
+      ipv4_subnet: "{{ ansible_facts['default_ipv4']['netmask'] }}"
+  - name: Set Address and Network Facts
+    set_fact:
+      server_address: "{{ ipv4_addr | ansible.utils.ipaddr }}"
+      ptr_record: "{{ ipv4_addr | ansible.utils.ipaddr('revdns') }}"
+      net_mask: "{{ ipv4_addr }}/{{ ipv4_subnet }}"
+  - name: Set Address and Network Facts
+    set_fact:
+      cidr: "{{ net_mask | ansible.utils.ipaddr('network/prefix') }}"
+      broadcast: "{{ net_mask | ansible.utils.ipaddr('broadcast') }}"
+
+  - name: Display server_address
+    debug:
+      msg: "server_address is {{ server_address }}"
+  - name: Display ptr
+    debug:
+      msg: "ptr is {{ ptr_record }}"
+  - name: Display netmask
+    debug:
+      msg: "netmask is {{ net_mask }}"
+  - name: Display cidr
+    debug:
+      msg: "cidr is {{ cidr }}"
+  - name: Display broadcast
+    debug:
+      msg: "broadcast is {{ broadcast }}"
+  - name: Print addresss on {{ cidr }}
+    debug:
+      #note no quotes around cidr as is ia variable not a filter 
+      msg: "{{ item | ansible.utils.ipaddr(cidr) }}"
+    loop:
+    - 172.16.0.1
+    - 172.25.250.4
+    - 192.168.122.20
+    - 192.0.2.55
+    - 172.29.33.100
