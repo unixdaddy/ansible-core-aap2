@@ -2,4 +2,4 @@
 ansible-builder/context/**
 ansible-builder/context/
 */context/*
-*/collections/ansible_collections
+*ansible_collections*
