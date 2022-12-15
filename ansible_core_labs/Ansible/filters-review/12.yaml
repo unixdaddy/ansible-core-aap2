@@ -1,0 +1,25 @@
+- name: Network Filters
+  hosts: localhost
+  gather_facts: true
+  vars:
+    listips:
+    - 192.168.0.1
+    - 10.0.0.1/25
+    - 172.24.10.0/255.255.255.0
+    - 172.24.10.0/255.255.255.255
+    - ff02::1
+    - ::1
+    - 2001::1/64
+    - 2001::/64
+    - www.redhat.com 
+
+  tasks:
+  - name: pip install
+    ansible.builtin.pip:
+      name: netaddr
+  - name: Get all IP
+    debug:
+      msg: "{{ listips | ansible.utils.ipaddr }}"
+  - name: Get host 
+    debug:
+      msg: "{{ listips | ansible.utils.ipaddr('host') }}"

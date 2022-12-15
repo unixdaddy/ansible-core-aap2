@@ -69,6 +69,9 @@ ansible-navigator  --ce docker
 ansible-navigator config init -m stdout --disabled --ee false > ansible.cfg
 # create a default navigator settings file
 ansible-navigator settings --sample > ansible-navigator.yml
+# running ansible-navigator with the --ee false it behaves as ansible-playbook
+# and it is running the playbook on the host not in container (execution env)
+ansible-navigator run play.yml --ee false -m stdout
 
 # THIS REPO IS SETUP FOR auto
 

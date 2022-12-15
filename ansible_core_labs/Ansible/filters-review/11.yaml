@@ -1,0 +1,15 @@
+- name: Network Filters
+  hosts: localhost
+  gather_facts: true
+  tasks:
+  - name: Get IP
+    setup:
+    register: output
+  - name: debug
+    debug:
+      var: output
+  - name: Get IP
+    debug:
+      #msg: "Server: {{ ansible_facts['fqdn'] }} at {{ ansible_facts['default_ipv4']['address'] }}"
+      msg: "Server: {{ ansible_distribution }}"
+      #msg: "Server: {{ hostname }}"

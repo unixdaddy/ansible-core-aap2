@@ -1,5 +1,6 @@
 https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_filters.html
 https://docs.rockylinux.org/books/learning_ansible/07-working-with-filters/
+https://docs.ansible.com/ansible/latest/collections/ansible/utils/index.html#plugins-in-ansible-utils
 
 filters
 
@@ -27,3 +28,21 @@ filters
 - passwod_hash
 
 .....there are others
+
+Network filters (need ansible.netcommon.ipaddr collection which needs netaddr python module)
+
+- ansible.netcommon.ipaddr
+- ansible.netcommon.ipaddr(netmask)
+- ansible.netcommon.ipaddr(host)
+- ansible.netcommon.ipaddr(net)
+- ansible.netcommon.ipaddr(private)
+- ansible.netcommon.ipaddr(public)
+- ansible.netcommon.ipaddr(ipwrap)
+- ansible.netcommon.ipaddr(address)
+- ansible.netcommon.ipaddr(prefix)
+- ansible.netcommon.ipaddr(broadcast)
+- ansible.netcommon.ipaddr(revdns)
+- ansible.netcommon.ipaddr(range_usable)
+- ansible.netcommon.network_in_usable(IP_ADDRESS)
+- ansible.netcommon.ipaddr(next_usable)
+- ansible.netcommon.cidr_merge
